@@ -317,24 +317,35 @@
   // ---------- Share card (html-to-image) ----------
   function onShare() {
     var card = els.roastCard;
+    var btn = els.shareBtn;
+    if (btn.dataset.busy === "1") return;
+    var origLabel = btn.textContent;
+    btn.dataset.busy = "1";
+    btn.disabled = true;
+    btn.textContent = "📸 Karte wird erstellt …";
+    var restore = function () { btn.dataset.busy = ""; btn.disabled = false; btn.textContent = origLabel; };
     var done = function (dataUrl) {
       // try Web Share with file, else download
       try {
         fetch(dataUrl).then(function (r) { return r.blob(); }).then(function (blob) {
           var file = new File([blob], "roast-my-website.png", { type: "image/png" });
           if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            navigator.share({ files: [file], title: "Roast My Website 🔥", text: "Meine Website wurde geröstet 🔥" }).catch(function () {});
+            navigator.share({ files: [file], title: "Roast My Website 🔥", text: "Meine Website wurde geröstet 🔥" }).catch(function () {}).finally(restore);
           } else {
-            triggerDownload(dataUrl);
+            triggerDownload(dataUrl); restore();
           }
-        }).catch(function () { triggerDownload(dataUrl); });
-      } catch (e) { triggerDownload(dataUrl); }
+        }).catch(function () { triggerDownload(dataUrl); restore(); });
+      } catch (e) { triggerDownload(dataUrl); restore(); }
     };
-    if (!window.htmlToImage) { return; }
+    if (!window.htmlToImage) {
+      btn.textContent = "Teilen gerade nicht verfügbar";
+      setTimeout(restore, 1600);
+      return;
+    }
     card.classList.add("snapshot");
     window.htmlToImage.toPng(card, { pixelRatio: 2, backgroundColor: "#0c0a09", cacheBust: true })
       .then(function (dataUrl) { card.classList.remove("snapshot"); done(dataUrl); })
-      .catch(function () { card.classList.remove("snapshot"); });
+      .catch(function () { card.classList.remove("snapshot"); btn.textContent = "Hat nicht geklappt — nochmal?"; setTimeout(restore, 1800); });
   }
   function triggerDownload(dataUrl) {
     var a = document.createElement("a");

@@ -108,6 +108,15 @@ function classifyTarget(raw) {
   if (host.includes(":")) {
     return { ok: false, reason: "IPv6-Adressen werden nicht geröstet." };
   }
+  // Numerische Hosts in Dezimal-/Hex-/Oktal-Form ablehnen (z. B. 2130706433 = 127.0.0.1,
+  // 0x7f000001, 0177.0.0.1) — Bypass-Schreibweisen für private IPs.
+  if (/^(0x[0-9a-f]+|\d+)$/.test(host) || /^0\d/.test(host.split(".")[0])) {
+    return { ok: false, reason: "Diese Adressform wird nicht geröstet." };
+  }
+  // Hinweis: Eine öffentliche Domain könnte per DNS auf eine private IP zeigen
+  // (DNS-Rebinding). Der eigentliche Abruf läuft über Firecrawl, einen verwalteten
+  // Dienst mit eigenen Egress-/SSRF-Kontrollen — unser Server stellt selbst keine
+  // Verbindung zur Zieladresse her. Die obigen Literal-Checks blocken die direkten Fälle.
   return { ok: true, url: u.toString(), host };
 }
 
@@ -199,12 +208,35 @@ async function callGemini(apiKey, model, target, page) {
       throw err;
     }
     const data = await res.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) throw new Error("Gemini: leere Antwort");
-    return JSON.parse(text);
+    const cand = data?.candidates?.[0];
+    const text = cand?.content?.parts?.[0]?.text;
+    if (!text) {
+      // finishReason MAX_TOKENS o.ä. → leerer/abgeschnittener Text. Explizit melden,
+      // damit der Aufrufer (mit höherem Token-Budget oder Fallback-Modell) reagieren kann.
+      throw new Error(`Gemini: leere Antwort (finishReason=${cand?.finishReason || "?"})`);
+    }
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      // Abgeschnittenes JSON retten: bis zur letzten schließenden Klammer kürzen.
+      const repaired = salvageJson(text);
+      if (repaired) return repaired;
+      throw new Error(`Gemini: JSON unparsebar (finishReason=${cand?.finishReason || "?"})`);
+    }
   } finally {
     clearTimeout(timer);
   }
+}
+
+// Best-effort-Reparatur abgeschnittener JSON-Antworten (MAX_TOKENS).
+function salvageJson(text) {
+  const start = text.indexOf("{");
+  if (start < 0) return null;
+  for (let end = text.length; end > start; end--) {
+    if (text[end - 1] !== "}") continue;
+    try { return JSON.parse(text.slice(start, end)); } catch (e) { /* weiter */ }
+  }
+  return null;
 }
 
 // Roast normalisieren + validieren (Anti-Halluzination + Schema-Härtung).

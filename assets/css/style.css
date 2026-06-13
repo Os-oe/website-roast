@@ -163,7 +163,9 @@ main { position: relative; z-index: 2; }
 .mascot-stage[data-mood="roasting"] .mascot-svg { animation: shiver .5s ease-in-out infinite; }
 @keyframes shiver { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px) rotate(2deg)} }
 .mascot-stage[data-mood="roasting"] .flame { animation-duration: .7s; }
-.mascot-stage[data-mood="done"] .mouth { d: path("M86 130 q 24 28 48 0"); }
+/* „Done"-Grinsen: breiter — transform statt d:-Path (Cross-Browser-sicher) */
+.mascot-stage[data-mood="done"] .mouth { transform: scaleY(1.4) translateY(2px); transform-origin: 110px 134px; }
+.mouth { transition: transform .3s ease; }
 .mascot-arm { transform-origin: 168px 150px; animation: stir 2.4s ease-in-out infinite; }
 @keyframes stir { 0%,100%{transform:rotate(0)} 50%{transform:rotate(-10deg)} }
 
@@ -254,6 +256,8 @@ main { position: relative; z-index: 2; }
   animation-delay: calc(var(--i, 0) * 130ms + 350ms);
 }
 .roast-line::before { content: "🔥"; position: absolute; left: 14px; top: 13px; font-size: 15px; }
+.roast-line, .real-tip, .card-url { overflow-wrap: anywhere; word-break: break-word; }
+.action:disabled { opacity: .7; cursor: default; }
 @keyframes roastIn { to { opacity: 1; transform: translateX(0); } }
 
 .real-tip {

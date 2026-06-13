@@ -56,6 +56,11 @@ def run(page):
     # ---- Share-Karte: html-to-image erzeugt ein PNG ----
     has_lib = page.evaluate("() => !!window.htmlToImage")
     check("html-to-image geladen", has_lib)
+    # Share-Button gibt Lade-Feedback (kein stummes Warten)
+    page.click("[data-testid=share-btn]")
+    busy_label = page.evaluate("""() => { const b=document.getElementById('share-btn'); return {busy:b.dataset.busy, txt:b.textContent}; }""")
+    check("Share-Button zeigt Lade-Status", busy_label["busy"] == "1" or "erstellt" in busy_label["txt"] or "verfügbar" in busy_label["txt"], str(busy_label))
+    page.wait_for_timeout(2500)  # restore
     if has_lib:
         data_url = page.evaluate("""async () => {
           try { return await window.htmlToImage.toPng(document.getElementById('roast-card'),

@@ -68,6 +68,12 @@ function check(name, cond, detail) {
   check("Nur http(s): ftp abgelehnt", proto.status === 400 && !proto.json.ok);
   const internal = await call("http://intranet");
   check("Interner Host ohne Punkt abgelehnt", internal.status === 400 && !internal.json.ok);
+  const dec = await call("http://2130706433");        // = 127.0.0.1 dezimal
+  check("SSRF: dezimale IP-Form abgelehnt", dec.status === 400 && !dec.json.ok);
+  const hex = await call("http://0x7f000001");         // = 127.0.0.1 hex
+  check("SSRF: hex IP-Form abgelehnt", hex.status === 400 && !hex.json.ok);
+  const v6 = await call("http://[::1]");
+  check("SSRF: IPv6 abgelehnt", v6.status === 400 && !v6.json.ok);
 
   // 3) Anti-Halluzination: unerreichbare Domain → error-Roast, KEINE erfundenen Inhalte
   const dead = await call("https://this-domain-truly-does-not-exist-9281736.de");

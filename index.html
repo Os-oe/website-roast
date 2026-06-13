@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Roast My Website 🔥 — lass deine Website rösten</title>
+  <meta name="description" content="Gib eine Website-URL ein und lass sie von einem frechen KI-Röstmeister live rösten: Röst-Score, brutal-witzige Sprüche und ein echter Tipp — als teilbare Karte.">
+  <meta name="theme-color" content="#0c0a09">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230c0a09'/><text x='50' y='72' font-size='62' text-anchor='middle'>🔥</text></svg>">
+
+  <!-- Open Graph / Share -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Roast My Website 🔥">
+  <meta property="og:description" content="Lass deine Website von einem fiesen KI-Röstmeister rösten. Score + 3 Sprüche + ein echter Tipp.">
+  <meta property="og:url" content="https://website-roast.demo.osai.solutions">
+  <meta property="og:image" content="https://website-roast.demo.osai.solutions/assets/img/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Roast My Website 🔥">
+  <meta name="twitter:description" content="Lass deine Website von einem fiesen KI-Röstmeister rösten.">
+  <meta name="twitter:image" content="https://website-roast.demo.osai.solutions/assets/img/og.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+</head>
+<body>
+  <div class="emberfield" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-flame" aria-hidden="true">🔥</span>
+      <span class="brand-word">ROAST<em>MY</em>WEBSITE</span>
+    </a>
+    <a class="topbar-cta" href="https://cal.com/osai-solutions" target="_blank" rel="noopener">Echten Glow-up holen →</a>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">KI-Röstmeister · live · gnadenlos</p>
+          <h1 class="hero-claim">Lass deine Website<br><span class="fire-word">rösten.</span> 🔥</h1>
+          <p class="hero-sub">Gib eine URL ein. Mein Röstmeister analysiert die echte Seite und liefert einen Röst-Score, ein paar brutal-witzige Sprüche — und einen Tipp, der wirklich hilft.</p>
+
+          <form class="roast-form" id="roast-form" autocomplete="off">
+            <div class="input-wrap">
+              <span class="input-globe" aria-hidden="true">🌐</span>
+              <input type="text" id="url-input" name="url" inputmode="url"
+                placeholder="deine-website.de" aria-label="Website-URL eingeben"
+                spellcheck="false">
+            </div>
+            <button type="submit" class="roast-btn" id="roast-btn" data-testid="roast-btn">
+              <span class="roast-btn-label">🔥 Rösten!</span>
+            </button>
+          </form>
+          <p class="form-hint" id="form-hint" data-testid="form-hint"></p>
+
+          <p class="live-counter" data-testid="live-counter">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            Heute schon <strong id="counter-num">0</strong> Websites geröstet
+          </p>
+        </div>
+
+        <div class="hero-mascot" aria-hidden="true">
+          <div class="mascot-stage" id="mascot-stage" data-mood="idle">
+            <!-- Röstmeister: animierter SVG-Flammen-Grill-Roboter -->
+            <div class="mascot-glow"></div>
+            <svg class="mascot-svg" viewBox="0 0 220 240" role="img">
+              <defs>
+                <linearGradient id="emberG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#ffd24a"/>
+                  <stop offset="0.5" stop-color="#ff7a18"/>
+                  <stop offset="1" stop-color="#e23b08"/>
+                </linearGradient>
+                <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3a3531"/>
+                  <stop offset="1" stop-color="#1c1a18"/>
+                </linearGradient>
+                <radialGradient id="eyeG" cx="0.5" cy="0.4" r="0.7">
+                  <stop offset="0" stop-color="#fff7e0"/>
+                  <stop offset="0.6" stop-color="#ffb020"/>
+                  <stop offset="1" stop-color="#ff6a00"/>
+                </radialGradient>
+              </defs>
+              <!-- flame crown -->
+              <g class="mascot-flames">
+                <path class="flame f1" d="M110 8 C 96 40 84 52 96 78 C 104 64 108 62 110 58 C 112 62 116 64 124 78 C 136 52 124 40 110 8 Z" fill="url(#emberG)"/>
+                <path class="flame f2" d="M74 30 C 66 54 60 62 70 82 C 76 70 78 68 80 64 C 82 70 86 74 92 84 C 98 62 86 52 74 30 Z" fill="url(#emberG)" opacity="0.85"/>
+                <path class="flame f3" d="M146 30 C 138 54 132 62 142 82 C 148 70 150 68 152 64 C 154 70 158 74 164 84 C 170 62 158 52 146 30 Z" fill="url(#emberG)" opacity="0.85"/>
+              </g>
+              <!-- head -->
+              <rect x="54" y="74" width="112" height="92" rx="26" fill="url(#bodyG)" stroke="#ff7a18" stroke-width="2.5"/>
+              <!-- grill stripes on belly -->
+              <g stroke="#52473f" stroke-width="3" opacity="0.55">
+                <line x1="66" y1="150" x2="154" y2="150"/>
+                <line x1="66" y1="158" x2="154" y2="158"/>
+              </g>
+              <!-- eyes -->
+              <g class="mascot-eyes">
+                <circle class="eye eye-l" cx="92" cy="112" r="15" fill="url(#eyeG)"/>
+                <circle class="eye eye-r" cx="128" cy="112" r="15" fill="url(#eyeG)"/>
+                <circle cx="96" cy="108" r="4" fill="#1c1207"/>
+                <circle cx="132" cy="108" r="4" fill="#1c1207"/>
+              </g>
+              <!-- cheeky brow -->
+              <path class="brow" d="M78 96 q 14 -8 28 -2" stroke="#ff7a18" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <!-- grin -->
+              <path class="mouth" d="M86 134 q 24 22 48 0" stroke="#ffb020" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <!-- arms / spatula -->
+              <g class="mascot-arm">
+                <rect x="158" y="120" width="9" height="58" rx="4" fill="#5a4f46" transform="rotate(18 162 150)"/>
+                <rect x="176" y="104" width="26" height="20" rx="4" fill="#8a7a6a" transform="rotate(18 188 114)"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-cue" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ ROAST ANIMATION OVERLAY ============ -->
+    <div class="roasting" id="roasting" data-testid="roasting" hidden>
+      <div class="roasting-inner">
+        <div class="grill">
+          <div class="heat-meter">
+            <div class="heat-fill" id="heat-fill"></div>
+            <div class="heat-flames" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <p class="roasting-target" id="roasting-target"></p>
+          <p class="ticker" id="ticker" data-testid="ticker">Feuer wird angefacht …</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ RESULT CARD ============ -->
+    <section class="result" id="result" data-testid="result" hidden>
+      <div class="result-shell">
+        <!-- the shareable card -->
+        <article class="roast-card" id="roast-card" data-testid="roast-card">
+          <div class="card-grain" aria-hidden="true"></div>
+          <header class="card-head">
+            <span class="card-kicker">🔥 Roast My Website</span>
+            <span class="card-url" id="card-url" data-testid="card-url"></span>
+          </header>
+
+          <div class="score-block">
+            <div class="score-ring">
+              <svg viewBox="0 0 120 120" class="ring-svg" aria-hidden="true">
+                <circle class="ring-bg" cx="60" cy="60" r="52"/>
+                <circle class="ring-fg" id="ring-fg" cx="60" cy="60" r="52"/>
+              </svg>
+              <div class="score-num"><span id="score-num" data-testid="score-num">0</span></div>
+            </div>
+            <div class="score-meta">
+              <p class="score-label" id="score-label" data-testid="score-label">…</p>
+              <p class="score-sub">Röst-Score</p>
+            </div>
+          </div>
+
+          <ul class="roast-list" id="roast-list" data-testid="roast-list"></ul>
+
+          <div class="real-tip" id="real-tip" data-testid="real-tip"></div>
+
+          <footer class="card-foot">
+            <span class="card-by">geröstet von Roast&nbsp;My&nbsp;Website</span>
+            <a class="card-osai" href="https://osai.solutions?utm_source=website-roast" target="_blank" rel="noopener">
+              powered by <img src="assets/img/osai-logo.png" alt="OsAI" width="20" height="20"> <strong>OsAI</strong>
+            </a>
+          </footer>
+        </article>
+
+        <div class="result-actions">
+          <button class="action share" id="share-btn" data-testid="share-btn">📸 Karte teilen</button>
+          <button class="action again" id="again-btn" data-testid="again-btn">🔁 Andere Seite rösten</button>
+        </div>
+
+        <!-- Soft CTA -->
+        <div class="soft-cta">
+          <p>Willst du den echten <strong>Glow-up</strong> statt nur den Roast?</p>
+          <a class="cta-link" href="https://cal.com/osai-solutions" target="_blank" rel="noopener">→ OsAI baut deine Seite neu</a>
+        </div>
+
+        <!-- history -->
+        <div class="history" id="history" data-testid="history" hidden>
+          <h3>Deine letzten Röstungen</h3>
+          <ul id="history-list"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-note">Spaß-Demo — geröstet wird die Website, nie ein Mensch. · <a class="footer-legal" href="impressum.html">Impressum</a> · <a class="footer-legal" href="datenschutz.html">Datenschutz</a></span>
+      <a class="footer-brand" href="https://osai.solutions?utm_source=website-roast" target="_blank" rel="noopener">
+        powered by <img src="assets/img/osai-logo.png" alt="OsAI" width="22" height="22"> <strong>OsAI</strong>
+      </a>
+    </div>
+  </footer>
+
+  <script src="assets/js/staged.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

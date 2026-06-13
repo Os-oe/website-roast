@@ -1,0 +1,9 @@
+making-of/
+video/
+tests/
+*.test.*
+dev-server.mjs
+fixtures/
+LESSONS.md
+BUILD-LOG.md
+.planning/
